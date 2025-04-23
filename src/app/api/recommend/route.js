@@ -30,30 +30,8 @@
 //   })
 // }
 
-import clientPromise from '../../../../lib/mongodb'  // ← パスはプロジェクト構成により調整
+import clientPromise from '../../../../lib/mongodb'
 
-export async function POST(req) {
-  try {
-    const { name, resort, reason } = await req.json()
-    const client = await clientPromise
-    const db = client.db('skiResorts')
-
-    await db.collection('recommendations').insertOne({
-      name,
-      resort,
-      reason,
-      createdAt: new Date(),
-    })
-
-    return new Response(JSON.stringify({ message: 'ok' }), { status: 200 })
-  } catch (err) {
-    console.error('💥 API POST /recommend error:', err)
-    return new Response(
-      JSON.stringify({ error: 'Internal Server Error', details: err.message }),
-      { status: 500 }
-    )
-  }
-}
 export async function GET() {
   try {
     const client = await clientPromise
